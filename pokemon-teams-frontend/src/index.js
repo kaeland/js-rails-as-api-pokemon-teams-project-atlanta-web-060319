@@ -70,22 +70,36 @@ function addPokemonToTrainer(event) {
       console.log(pokemon)
 
       let ul = document.querySelector(`[data-id="${pokemon.trainer_id}"] > ul`)
-
+      
       const li = document.createElement("li")
       li.innerText = `${pokemon.nickname} (${pokemon.species})`
-
+      
       const button = document.createElement("button")
       button.className = "release"
       button.setAttribute("data-pokemon-id", pokemon.id)
       button.innerText = "Release"
-
+      
       li.appendChild(button)
       ul.appendChild(li)
     })
-}
-
-function releasePokemon(event) {
+  }
   
+  function releasePokemon(event) {
+    const pokemonId = event.target.dataset.pokemonId 
+    
+    fetch(`${POKEMONS_URL}/${pokemonId}`, {
+      method: 'DELETE', 
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(res => res.json())
+    .then(data => {
+      console.log(data)
+      
+      let pokemon = data.pokemon
+      let li = document.querySelector(`button[data-pokemon-id="${pokemon.id}"]`).parentElement
+      li.remove()
+  })
 }
 
 
