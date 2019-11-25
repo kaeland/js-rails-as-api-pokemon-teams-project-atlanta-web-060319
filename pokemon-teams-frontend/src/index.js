@@ -41,6 +41,7 @@ function renderTrainers(trainers) {
       button.className = "release"
       button.setAttribute("data-pokemon-id", pokemon.id)
       button.innerText = "Release"
+      button.addEventListener("click", releasePokemon)
 
       li.appendChild(button)
       ul.appendChild(li)
@@ -65,18 +66,29 @@ function addPokemonToTrainer(event) {
       }
     })
   }).then(res => res.json())
-    .then(helpfulDetails => {
-      console.log(helpfulDetails)
-      let main = document.querySelector("main")
+    .then(pokemon => {
+      console.log(pokemon)
 
-      let child = main.lastElementChild
-      while (child) {
-        main.removeChild(child)
-        child = main.lastElementChild
-      }
-      fetchTrainers()
+      let ul = document.querySelector(`[data-id="${pokemon.trainer_id}"] > ul`)
+
+      const li = document.createElement("li")
+      li.innerText = `${pokemon.nickname} (${pokemon.species})`
+
+      const button = document.createElement("button")
+      button.className = "release"
+      button.setAttribute("data-pokemon-id", pokemon.id)
+      button.innerText = "Release"
+
+      li.appendChild(button)
+      ul.appendChild(li)
     })
 }
+
+function releasePokemon(event) {
+  
+}
+
+
 
 
 
